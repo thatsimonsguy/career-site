@@ -47,7 +47,7 @@ export default function ChatBox() {
             if (done) break;
 
             buffer += decoder.decode(value, { stream: true });
-            let lines = buffer.split('\n\n');
+            const lines = buffer.split('\n\n');
             buffer = lines.pop() || '';
 
             for (const line of lines) {
