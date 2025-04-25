@@ -15,6 +15,13 @@ export default function ChatBox() {
     const sessionIdRef = useRef<string>(uuidv4());
     const chatBoxRef = useRef<HTMLDivElement>(null);
 
+    function fixParagraphs(text: string): string {
+        return text.replace(
+            /([a-z0-9])([.!?:])([A-Z])/g,
+            '$1$2\n\n$3'
+        );
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (isLoading || !prompt.trim()) return;
@@ -114,7 +121,12 @@ export default function ChatBox() {
                         <span className="font-bold">
                             {msg.role === 'user' ? 'You:' : 'MattBot:'}
                         </span>{' '}
-                        {msg.text}
+                        {fixParagraphs(msg.text).split(/\n{2,}/).map((paragraph, i) => (
+                            <div key={i} className="mb-4">
+                                {paragraph}
+                            </div>
+                        ))}
+
                     </div>
                 ))}
             </div>
