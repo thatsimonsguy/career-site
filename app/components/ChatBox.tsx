@@ -24,48 +24,73 @@ export default function ChatBox() {
         setMessages(newMessages);
         setPrompt('');
 
-        const res = await fetch('https://matthewpsimons.com/api/v1/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                user_id: sessionIdRef.current,
-                query: prompt
-            }),
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+        };
+
+        if (process.env.NEXT_PUBLIC_DEV_CORS_SECRET) {
+            headers['X-Dev-Cors-Secret'] = process.env.NEXT_PUBLIC_DEV_CORS_SECRET;
+        }
+
+        const body = JSON.stringify({
+            user_id: sessionIdRef.current,
+            query: prompt
         });
 
-        const reader = res.body?.getReader();
-        const decoder = new TextDecoder('utf-8');
-        let buffer = '';
-
-        if (!reader) {
-            setIsLoading(false);
-            return;
+        if (process.env.NODE_ENV === 'development') {
+            console.log('🛰️ Sending request to API:');
+            console.log('URL:', 'https://matthewpsimons.com/api/v1/chat');
+            console.log('Headers:', headers);
+            console.log('Body:', body);
         }
 
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
+        try {
+            const res = await fetch('https://matthewpsimons.com/api/v1/chat', {
+                method: 'POST',
+                headers,
+                body,
+            });
 
-            buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split('\n\n');
-            buffer = lines.pop() || '';
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
 
-            for (const line of lines) {
-                if (line.startsWith('data: ')) {
-                    const chunk = line.slice(6);
-                    setMessages((msgs) => {
-                        const updated = [...msgs];
-                        updated[updated.length - 1] = {
-                            role: 'MattBot',
-                            text: (updated[updated.length - 1].text || '') + chunk
-                        };
-                        return updated;
-                    });
+            const reader = res.body?.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let buffer = '';
+
+            if (!reader) {
+                setIsLoading(false);
+                return;
+            }
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n\n');
+                buffer = lines.pop() || '';
+
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const chunk = line.slice(6);
+                        setMessages((msgs) => {
+                            const updated = [...msgs];
+                            updated[updated.length - 1] = {
+                                role: 'MattBot',
+                                text: (updated[updated.length - 1].text || '') + chunk
+                            };
+                            return updated;
+                        });
+                    }
                 }
             }
+        } catch (err) {
+            console.error('🚨 Fetch error:', err);
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     };
 
     useEffect(() => {
