@@ -1,7 +1,7 @@
 // /app/projects/ProjectCard.tsx
 'use client';
 
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import { Project } from "@/data/Project";
 
@@ -56,8 +56,8 @@ export default function ProjectCard({ project, isActive, isInactive, setActivePr
             <div
                 ref={cardRef}
                 className={`bg-white rounded-lg shadow-md flex flex-col cursor-pointer transition-all duration-300 ease-in-out transform ${isActive ? "fixed top-1/2 left-1/2 z-50 p-8 bg-white max-w-3xl max-h-[90vh] overflow-y-auto -translate-x-1/2 -translate-y-1/2 scale-100" :
-                        isInactive ? "opacity-30 blur-sm pointer-events-none" :
-                            "hover:scale-105"
+                    isInactive ? "opacity-30 blur-sm pointer-events-none" :
+                        "hover:scale-105"
                     }`}
                 onClick={handleClick}
             >

@@ -16,6 +16,7 @@ IMAGE_FULL := $(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_TAG)
 
 .PHONY: run build
 run:
+	rm -rf out
 	npm run dev
 
 build:
@@ -27,7 +28,7 @@ build:
 
 .PHONY: docker-build
 docker-build:
-	docker build -t $(IMAGE_FULL) .
+	docker build -t $(IMAGE_FULL) . --no-cache
 
 .PHONY: docker-push
 docker-push:
