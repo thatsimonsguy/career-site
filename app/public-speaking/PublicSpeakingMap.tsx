@@ -1,3 +1,4 @@
+/*
 // /app/public-speaking/PublicSpeakingMap.tsx
 'use client';
 
@@ -29,7 +30,7 @@ export default function PublicSpeakingMap() {
 
     talks.forEach((talk) => {
         if (talk.latitude !== undefined && talk.longitude !== undefined) {
-            const key = `${talk.latitude.toFixed(4)}-${talk.longitude.toFixed(4)}`;
+            //const key = `${talk.latitude.toFixed(4)}-${talk.longitude.toFixed(4)}`;
             let group = groupedLocations.find(
                 (g) => g.latitude.toFixed(4) === talk.latitude!.toFixed(4) && g.longitude.toFixed(4) === talk.longitude!.toFixed(4)
             );
@@ -89,3 +90,4 @@ export default function PublicSpeakingMap() {
         </section>
     );
 }
+*/
