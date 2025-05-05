@@ -39,7 +39,7 @@ export const projects: Project[] = [
     shortDescription:
       "A software-driven, 35-zone intelligent irrigation system for my garden.",
     fullDescription:
-      "This is a long project, still in flight. The ultimate goal is to provide software-driven control over 35 irrigation zones in my garden. Zones have attached profiles that match desired irrigation minutes per day according to crop placement, and will adjust lengths according to local weather. I also designed and fabricated custom raised garden beds for this prokect.",
+      "This is a long project, still in flight. The ultimate goal is to provide software-driven control over 35 irrigation zones in my garden. Zones have attached profiles that match desired irrigation minutes per day according to crop placement, and will adjust lengths according to local weather. I also designed and fabricated custom raised garden beds for this project.",
     images: [
       { src: "/projects/PXL_20240425_185521644.jpg", caption: "The slab where the garden shed will be constructed and house all of the valves and distribution." },
       { src: "/projects/PXL_20230514_190030828.jpg", caption: "The plot designated for the garden, before any improvements." },
@@ -58,7 +58,7 @@ export const projects: Project[] = [
     shortDescription:
       "An enclosed canopy bed system designed to control temperature, noise, and light for better sleep.",
     fullDescription:
-      "The sleep chamber project is probably the largest, multi-disciplinary project I'm currently undertaking. In its POC phase, the chamber is made of common construction materials and defines an interio space that is roomy, while providing almost complete thermal, acoustic, and optical isolation from the outside environment. Sensors in the interior drive air exchange as well as cooling for the interior of the chamber. Multiple layers of safety features ensure the chamber automatically opens in any failure scenario to ensure occupant safety.",
+      "The sleep chamber project is probably the largest, multi-disciplinary project I'm currently undertaking. In its POC phase, the chamber is made of common construction materials and defines an interior space that is roomy, while providing almost complete thermal, acoustic, and optical isolation from the outside environment. Sensors in the interior drive air exchange as well as cooling for the interior of the chamber. Multiple layers of safety features ensure the chamber automatically opens in any failure scenario to ensure occupant safety.",
     images: [
       { src: "/projects/PXL_20241221_203712962.jpg", caption: "The basic interior structure provides a platform for a TwinXL mattress and an interior shelf." },
       { src: "/projects/PXL_20241121_034845581.jpg", caption: "The prototype is built using off-the-shelf construction materials." },
@@ -76,7 +76,7 @@ export const projects: Project[] = [
       { src: "/projects/PXL_20211206_195336412.jpg", caption: "The finished exterior of the completed sauna." },
       { src: "/projects/IMG_20210206_155820.jpg", caption: "Early site prep -- digging out a basic foundation." },
       { src: "/projects/IMG_20210220_133059.jpg", caption: "Foundation framed and leveled. Dog providing moral support." },
-      { src: "/projects/IMG_20210307_133348.jpg", caption: "Basic floor framing on top of the compacted gravel foundation." },
+      { src: "/projects/IMG_20210307_133348.jpg", caption: "Basic floor framing on top of the compacted gravel foundation. Ground anchors are added later to hold the structure down." },
       { src: "/projects/IMG_20210314_180939.jpg", caption: "Basic exterior framing completed." },
       { src: "/projects/PXL_20210930_230553332.jpg", caption: "Framing up the interior cedar benches." },
       { src: "/projects/PXL_20210920_184158368.jpg", caption: "Interior wall finishing. Cedar planking over reflective heat insulation." },

@@ -21,7 +21,7 @@ export default function PublicSpeakingHero() {
         created(slider) {
             setInterval(() => {
                 slider.next();
-            }, 4000); 
+            }, 4000);
         },
     });
 
@@ -43,9 +43,12 @@ export default function PublicSpeakingHero() {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8 px-8">
                     {/* Left 30%: Tagline */}
                     <div className="w-full md:w-3/10 text-center md:text-left space-y-4 flex flex-col justify-start md:justify-center h-full">
-                        <h2 className="text-3xl font-bold text-white">
-                            Conferences, keynotes, and workshops around the world.
+                        <h2 className="text-4xl font-bold text-white">
+                            Inspiring Talks for Forward-Thinking Organizations
                         </h2>
+                        <p className="text-white text-base md:text-lg">
+                            Expert speaker on team leadership, technology trends, and organizational transformation.
+                        </p>
                     </div>
 
                     {/* Right 70%: Slideshow */}

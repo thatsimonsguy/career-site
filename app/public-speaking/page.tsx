@@ -7,38 +7,17 @@ import { talks } from "@/data/talks";
 import Image from "next/image";
 import PublicSpeakingHero from "./PublicSpeakingHero";
 import PublicSpeakingMap from "./PublicSpeakingMap";
+import PublicSpeakingList from "./PublicSpeakingList";
 
 export default function PublicSpeakingPage() {
     return (
         <>
             <Header />
             <PublicSpeakingHero />
-            <PublicSpeakingMap />
+            <PublicSpeakingList />
             <main className="max-w-6xl mx-auto py-8 px-4">
                 {/* Talks List */}
-                <section>
-                    <h2 className="text-3xl font-semibold mb-8 text-center">Speaking History</h2>
-                    <div className="space-y-8">
-                        {talks.sort((a, b) => b.year - a.year).map((talk, index) => (
-                            <div key={index} className="border-b pb-4">
-                                <h3 className="text-2xl font-bold text-red-900">{talk.title}</h3>
-                                <p className="text-gray-700">
-                                    {talk.event} &bull; {talk.location} &bull; {talk.year}
-                                </p>
-                                {talk.recordingUrl && (
-                                    <a
-                                        href={talk.recordingUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-blue-600 hover:underline mt-2 inline-block"
-                                    >
-                                        Watch Recording
-                                    </a>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                
 
                 {/* Call to Action */}
                 <section className="mt-16 text-center">
