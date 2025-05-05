@@ -9,6 +9,7 @@ import PublicSpeakingHero from "./PublicSpeakingHero";
 import PublicSpeakingMap from "./PublicSpeakingMap";
 import PublicSpeakingList from "./PublicSpeakingList";
 import PublicSpeakingTopics from "./PublicSpeakingTopics";
+import FeaturedTalks from "./FeaturedTalks";
 
 export default function PublicSpeakingPage() {
     return (
@@ -16,6 +17,7 @@ export default function PublicSpeakingPage() {
             <Header />
             <PublicSpeakingHero />
             <PublicSpeakingTopics />
+            <FeaturedTalks />
             <PublicSpeakingList />
             <Footer />
         </>
