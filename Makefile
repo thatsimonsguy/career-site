@@ -16,10 +16,10 @@ IMAGE_FULL := $(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_TAG)
 
 .PHONY: run build
 run:
-	rm -rf out
 	npm run dev
 
 build:
+	rm -rf out
 	npm run build
 
 # =================================
