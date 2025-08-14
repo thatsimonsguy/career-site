@@ -27,11 +27,11 @@ export default function PublicSpeakingHero() {
 
     // Hardcoded images for now
     const images = [
-        "speaking/ams.png",
-        "speaking/cccccc.png",
-        "speaking/ggabb.png",
-        "speaking/IMG-20240530-WA0018.jpg",
-        "speaking/map.png",
+        "/speaking/ams.png",
+        "/speaking/cccccc.png",
+        "/speaking/ggabb.png",
+        "/speaking/IMG-20240530-WA0018.jpg",
+        "/speaking/map.png",
     ];
 
     return (

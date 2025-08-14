@@ -25,7 +25,7 @@ export const featuredTalks: FeaturedTalk[] = [
             "Observability",
             "Platform Engineering",
         ],
-        image: "speaking/thumb-vertically-integrated.jpg",
+        image: "/speaking/thumb-vertically-integrated.jpg",
     },
     {
         event: "DevOpsPro Europe",
@@ -39,7 +39,7 @@ export const featuredTalks: FeaturedTalk[] = [
             "Metrics",
             "DevOps",
         ],
-        image: "speaking/thumb-PPP.jpg",
+        image: "/speaking/thumb-PPP.jpg",
     },
     {
         event: "DevOpsDays Krakow",
@@ -53,6 +53,6 @@ export const featuredTalks: FeaturedTalk[] = [
             "Organizational Resilience",
             "Innovation",
         ],
-        image: "speaking/thumb-ggabb.jpg",
+        image: "/speaking/thumb-ggabb.jpg",
     },
 ];
