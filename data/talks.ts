@@ -14,7 +14,7 @@ export interface Talk {
 export const talks: Talk[] = [
     {
         event: "AI in Healthcare Forum",
-        title: "Vie Coding in Healthcare: A Prescription for Heartburn",
+        title: "Vibe Coding in Healthcare: A Prescription for Heartburn",
         location: "Minneapolis",
         year: 2025,
         recordingUrl: "",
