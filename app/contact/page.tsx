@@ -11,7 +11,7 @@ export default function ContactPage() {
             <main className="min-h-screen flex flex-col items-center justify-center text-center p-8">
                 <h1 className="text-4xl font-bold text-red-900 mb-6">Contact</h1>
                 <Image
-                    src="images/DSC_3058.JPG"
+                    src="/images/DSC_3058.JPG"
                     alt="Under construction"
                     width={300}
                     height={300}

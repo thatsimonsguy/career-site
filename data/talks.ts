@@ -13,6 +13,15 @@ export interface Talk {
 
 export const talks: Talk[] = [
     {
+        event: "AI in Healthcare Forum",
+        title: "Vie Coding in Healthcare: A Prescription for Heartburn",
+        location: "Minneapolis",
+        year: 2025,
+        recordingUrl: "",
+        latitude: 44.9778,
+        longitude: -93.2650,
+    },
+    {
         event: "SREDay",
         title: "Vertically Integrated in Platform Engineering: Secrets to Success Operating the Company Within the Company",
         location: "London",
