@@ -46,6 +46,9 @@ export const projects: Project[] = [
       { src: "/projects/PXL_20250104_001127962.jpg", caption: "How it started. This is the old system." },
       { src: "/projects/PXL_20250104_001144202.jpg", caption: "A 'before' shot. Two ground-source heat pumps, buffer tank, and control system in frame." },
       { src: "/projects/PXL_20250818_052043240.jpg", caption: "An 'after' shot of the old system. Thank you for your service." },
+    ],
+    links: [
+      { label: "Temp Dashboard", url: "https://p.us5.datadoghq.com/sb/26fc6827-36bd-11f0-9b63-1621044a31da-0d70226a190c56afab0541b3c433bac4" },
     ]
   },
   {
@@ -86,7 +89,7 @@ export const projects: Project[] = [
     shortDescription:
       "A custom-built stand-alone sauna designed for year-round use.",
     fullDescription:
-      "When my wife and I lived in Charleston, SC, I built a stand-alone sauna for our home. This was a complete soup-to-nuts effort where I did everything from applying for permits, to foundation work, framing, interior finishing, ecterior cladding -- the whole shebang. Making the custom cedar benches was a lot of fun, and this was a really fulfilling project to see through end-to-end.",
+      "When my wife and I lived in Charleston, SC, I built a stand-alone sauna for our home. This was a complete soup-to-nuts effort where I did everything from applying for permits, to foundation work, framing, interior finishing, exterior cladding -- the whole shebang. Making the custom cedar benches was a lot of fun, and this was a really fulfilling project to see through end-to-end.",
     images: [
       { src: "/projects/PXL_20211206_195336412.jpg", caption: "The finished exterior of the completed sauna." },
       { src: "/projects/IMG_20210206_155820.jpg", caption: "Early site prep -- digging out a basic foundation." },
