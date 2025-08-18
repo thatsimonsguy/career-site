@@ -14,6 +14,12 @@ interface ContactInformationProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 }
 
+const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+    }
+};
+
 export default function ContactInformation({ formData, isSubmitting, onChange }: ContactInformationProps) {
     return (
         <div className="bg-white rounded-xl shadow-sm border border-steel/10 p-6">
@@ -40,6 +46,7 @@ export default function ContactInformation({ formData, isSubmitting, onChange }:
                         name="name"
                         value={formData.name}
                         onChange={onChange}
+                        onKeyDown={handleKeyDown}
                         className="w-full px-4 py-3 border border-steel/20 rounded-lg focus:ring-2 focus:ring-power/20 focus:border-power bg-white text-ink transition-colors"
                         placeholder="Your name"
                         disabled={isSubmitting}
@@ -56,6 +63,7 @@ export default function ContactInformation({ formData, isSubmitting, onChange }:
                         name="email"
                         value={formData.email}
                         onChange={onChange}
+                        onKeyDown={handleKeyDown}
                         className="w-full px-4 py-3 border border-steel/20 rounded-lg focus:ring-2 focus:ring-power/20 focus:border-power bg-white text-ink transition-colors"
                         placeholder="your@email.com"
                         disabled={isSubmitting}
@@ -72,6 +80,7 @@ export default function ContactInformation({ formData, isSubmitting, onChange }:
                         name="phone"
                         value={formData.phone}
                         onChange={onChange}
+                        onKeyDown={handleKeyDown}
                         className="w-full px-4 py-3 border border-steel/20 rounded-lg focus:ring-2 focus:ring-power/20 focus:border-power bg-white text-ink transition-colors"
                         placeholder="(555) 123-4567"
                         disabled={isSubmitting}
@@ -87,6 +96,7 @@ export default function ContactInformation({ formData, isSubmitting, onChange }:
                         name="subjectType"
                         value={formData.subjectType}
                         onChange={onChange}
+                        onKeyDown={handleKeyDown}
                         className="w-full px-4 py-3 border border-steel/20 rounded-lg focus:ring-2 focus:ring-power/20 focus:border-power bg-white text-ink transition-colors"
                         disabled={isSubmitting}
                     >
@@ -110,6 +120,7 @@ export default function ContactInformation({ formData, isSubmitting, onChange }:
                         name="customSubject"
                         value={formData.customSubject}
                         onChange={onChange}
+                        onKeyDown={handleKeyDown}
                         className="w-full px-4 py-3 border border-steel/20 rounded-lg focus:ring-2 focus:ring-power/20 focus:border-power bg-white text-ink transition-colors"
                         placeholder="Enter your custom subject"
                         disabled={isSubmitting}

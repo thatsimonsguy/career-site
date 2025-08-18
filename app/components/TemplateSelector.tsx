@@ -69,6 +69,12 @@ const getTemplateTagline = (templateId: string) => {
     }
 };
 
+const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+    }
+};
+
 export default function TemplateSelector({ 
     templates, 
     selectedTemplate, 
@@ -149,6 +155,7 @@ export default function TemplateSelector({
                         id="themePack"
                         value={selectedThemePack?.id || ''}
                         onChange={(e) => onThemePackChange(e.target.value)}
+                        onKeyDown={handleKeyDown}
                         className="w-full px-4 py-3 border border-steel/20 rounded-lg focus:ring-2 focus:ring-power/20 focus:border-power bg-white text-ink transition-colors"
                         disabled={isSubmitting}
                     >

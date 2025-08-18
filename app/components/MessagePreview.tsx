@@ -7,6 +7,12 @@ interface MessagePreviewProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
+const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && e.currentTarget.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+    }
+};
+
 export default function MessagePreview({ subject, body, isSubmitting, onChange }: MessagePreviewProps) {
     return (
         <div className="bg-white rounded-xl shadow-sm border border-steel/10 p-6">
@@ -35,6 +41,7 @@ export default function MessagePreview({ subject, body, isSubmitting, onChange }
                             name="subject"
                             value={subject}
                             onChange={onChange}
+                            onKeyDown={handleKeyDown}
                             className="w-full px-4 py-3 border border-steel/20 rounded-lg focus:ring-2 focus:ring-power/20 focus:border-power bg-white text-ink transition-colors pr-12"
                             placeholder="Generated subject will appear here"
                             disabled={isSubmitting}

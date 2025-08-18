@@ -244,7 +244,7 @@ ${formData.body}`;
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="w-full bg-red-900 text-white font-semibold py-4 px-6 rounded-lg hover:bg-red-800 focus:ring-2 focus:ring-red-900/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+                                        className="w-full bg-blue-900 text-white font-semibold py-4 px-6 rounded-lg hover:bg-blue-800 focus:ring-2 focus:ring-blue-900/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
                                     >
                                         {isSubmitting ? (
                                             <span className="flex items-center justify-center space-x-2">
