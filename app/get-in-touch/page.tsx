@@ -1,22 +1,127 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
+import ContactInformation from "@/app/components/ContactInformation";
+import TemplateSelector from "@/app/components/TemplateSelector";
+import MessagePreview from "@/app/components/MessagePreview";
+import { templates } from '@/data/templates';
+import { Template, ThemePack, SUBJECT_OPTIONS, SubjectOptionValue } from '@/data/Template';
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         phone: '',
+        subjectType: 'speaking' as SubjectOptionValue,
+        customSubject: '',
         subject: '',
         body: ''
     });
+    const [selectedTemplate, setSelectedTemplate] = useState<Template>(templates[0]);
+    const [selectedThemePack, setSelectedThemePack] = useState<ThemePack | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // Render template when template, form data, or theme pack changes
+    useEffect(() => {
+        renderTemplate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedTemplate, formData.name, formData.email, formData.phone, formData.subjectType, formData.customSubject, selectedThemePack]);
+
+    const renderTemplate = () => {
+        // Get the subject based on type
+        const subject = formData.subjectType === 'custom' 
+            ? formData.customSubject || selectedTemplate.subjectMappings.custom
+            : selectedTemplate.subjectMappings[formData.subjectType];
+
+        // Get the subject text with proper phrasing for each template
+        const getSubjectText = () => {
+            if (formData.subjectType === 'custom') {
+                return formData.customSubject || 'your inquiry';
+            }
+            
+            // Special handling for "hello" case per template
+            if (formData.subjectType === 'hello') {
+                switch (selectedTemplate.id) {
+                    case 'boring':
+                        return 'just to say hello and introduce myself';
+                    case 'buzzword':
+                        return 'establishing meaningful stakeholder connectivity';
+                    case 'not_sales':
+                        return 'just saying hi (seriously, no agenda)';
+                    case 'flattery':
+                        return 'offering my humble greetings to your magnificence';
+                    case 'bureaucracy':
+                        return 'general communication purposes as outlined in Form 127a-g5';
+                    default:
+                        return 'just saying hello';
+                }
+            }
+            
+            // Regular cases with proper articles
+            const subjectLabel = SUBJECT_OPTIONS.find(opt => opt.value === formData.subjectType)?.label.toLowerCase() || 'your inquiry';
+            const startsWithVowel = /^[aeiou]/i.test(subjectLabel);
+            return `${startsWithVowel ? 'an' : 'a'} ${subjectLabel}`;
+        };
+
+        // Replace placeholders in body template
+        let renderedBody = selectedTemplate.bodyTemplate
+            .replace(/\{name\}/g, formData.name || '[Your Name]')
+            .replace(/\{email\}/g, formData.email || '[Your Email]')
+            .replace(/\{subject\}/g, getSubjectText());
+
+        // Replace template-specific variables with theme pack values
+        if (selectedThemePack) {
+            Object.entries(selectedThemePack.variables).forEach(([key, value]) => {
+                renderedBody = renderedBody.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
+            });
+        } else {
+            // If no theme pack selected, show placeholders
+            // Find all variables in the template and replace with placeholders
+            const variables = renderedBody.match(/\{[^}]+\}/g) || [];
+            variables.forEach(variable => {
+                const varName = variable.slice(1, -1); // Remove { and }
+                if (!['name', 'email', 'subject'].includes(varName)) {
+                    renderedBody = renderedBody.replace(new RegExp(`\\{${varName}\\}`, 'g'), `[Select theme pack]`);
+                }
+            });
+        }
+
+        // Add phone number under signature if provided
+        if (formData.phone.trim() && formData.name.trim()) {
+            // Find the last occurrence of the name (usually the signature)
+            const namePattern = new RegExp(`\\b${formData.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b(?!.*\\b${formData.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b)`, 'g');
+            const lastNameMatch = [...renderedBody.matchAll(namePattern)].pop();
+            
+            if (lastNameMatch && lastNameMatch.index !== undefined) {
+                const insertIndex = lastNameMatch.index + lastNameMatch[0].length;
+                renderedBody = renderedBody.slice(0, insertIndex) + `\n${formData.phone}` + renderedBody.slice(insertIndex);
+            }
+        }
+
+        setFormData(prev => ({
+            ...prev,
+            subject,
+            body: renderedBody
+        }));
+    };
+
+    const handleTemplateChange = (templateId: string) => {
+        const template = templates.find(t => t.id === templateId) || templates[0];
+        setSelectedTemplate(template);
+        // Reset theme pack selection when changing templates
+        setSelectedThemePack(null);
+    };
+
+    const handleThemePackChange = (themePackId: string) => {
+        const themePack = selectedTemplate.themePacks.find(tp => tp.id === themePackId) || null;
+        setSelectedThemePack(themePack);
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
@@ -30,6 +135,12 @@ export default function ContactPage() {
         if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.body.trim()) {
             setSubmitStatus('error');
             setErrorMessage('Please fill in all required fields (name, email, subject, and message).');
+            return;
+        }
+
+        if (formData.subjectType === 'custom' && !formData.customSubject.trim()) {
+            setSubmitStatus('error');
+            setErrorMessage('Please enter a custom subject or select a different option.');
             return;
         }
 
@@ -66,7 +177,16 @@ ${formData.body}`;
 
             if (response.ok) {
                 setSubmitStatus('success');
-                setFormData({ name: '', email: '', phone: '', subject: '', body: '' });
+                setFormData({ 
+                    name: '', 
+                    email: '', 
+                    phone: '', 
+                    subjectType: 'speaking',
+                    customSubject: '',
+                    subject: '', 
+                    body: '' 
+                });
+                setSelectedThemePack(null);
             } else {
                 throw new Error(`Server responded with status: ${response.status}`);
             }
@@ -81,113 +201,105 @@ ${formData.body}`;
     return (
         <>
             <Header />
-            <main className="min-h-screen flex flex-col items-center justify-center p-8">
-                <div className="w-full max-w-2xl">
-                    <h1 className="text-4xl font-bold text-power text-center mb-8">Contact</h1>
-                    
-                    <div className="bg-parchment rounded-lg shadow-lg p-8 border border-steel/20">
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-ink mb-2">
-                                    Name <span className="text-power">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    value={formData.name}
+            <main className="min-h-screen bg-gradient-to-br from-parchment to-mist/30 py-12 px-4">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl md:text-5xl font-bold text-power mb-4">Get In Touch</h1>
+                        <p className="text-lg text-steel max-w-2xl mx-auto">
+                            Fill this out and Matt will (probably) respond. He&apos;s great like that.
+                        </p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            {/* Left Column - Input Components */}
+                            <div className="space-y-8">
+                                <ContactInformation 
+                                    formData={formData}
+                                    isSubmitting={isSubmitting}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 border border-steel/30 rounded-md focus:ring-2 focus:ring-power focus:border-power bg-white text-ink"
-                                    placeholder="Your name"
-                                    disabled={isSubmitting}
+                                />
+                                
+                                <TemplateSelector 
+                                    templates={templates}
+                                    selectedTemplate={selectedTemplate}
+                                    selectedThemePack={selectedThemePack}
+                                    isSubmitting={isSubmitting}
+                                    onTemplateChange={handleTemplateChange}
+                                    onThemePackChange={handleThemePackChange}
                                 />
                             </div>
 
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-ink mb-2">
-                                    Email <span className="text-power">*</span>
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
+                            {/* Right Column - Preview */}
+                            <div className="space-y-8">
+                                <MessagePreview 
+                                    subject={formData.subject}
+                                    body={formData.body}
+                                    isSubmitting={isSubmitting}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 border border-steel/30 rounded-md focus:ring-2 focus:ring-power focus:border-power bg-white text-ink"
-                                    placeholder="your@email.com"
-                                    disabled={isSubmitting}
                                 />
+                                
+                                {/* Send Button */}
+                                <div className="bg-white rounded-xl shadow-sm border border-steel/10 p-6">
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="w-full bg-red-900 text-white font-semibold py-4 px-6 rounded-lg hover:bg-red-800 focus:ring-2 focus:ring-red-900/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+                                    >
+                                        {isSubmitting ? (
+                                            <span className="flex items-center justify-center space-x-2">
+                                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                <span>Sending Message...</span>
+                                            </span>
+                                        ) : (
+                                            <span className="flex items-center justify-center space-x-2">
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                                </svg>
+                                                <span>Send Message</span>
+                                            </span>
+                                        )}
+                                    </button>
+                                </div>
                             </div>
+                        </div>
 
-                            <div>
-                                <label htmlFor="phone" className="block text-sm font-medium text-ink mb-2">
-                                    Phone
-                                </label>
-                                <input
-                                    type="tel"
-                                    id="phone"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-3 border border-steel/30 rounded-md focus:ring-2 focus:ring-power focus:border-power bg-white text-ink"
-                                    placeholder="(555) 123-4567"
-                                    disabled={isSubmitting}
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="subject" className="block text-sm font-medium text-ink mb-2">
-                                    Subject <span className="text-power">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    id="subject"
-                                    name="subject"
-                                    value={formData.subject}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-3 border border-steel/30 rounded-md focus:ring-2 focus:ring-power focus:border-power bg-white text-ink"
-                                    placeholder="What's this about?"
-                                    disabled={isSubmitting}
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="body" className="block text-sm font-medium text-ink mb-2">
-                                    Message <span className="text-power">*</span>
-                                </label>
-                                <textarea
-                                    id="body"
-                                    name="body"
-                                    rows={6}
-                                    value={formData.body}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-3 border border-steel/30 rounded-md focus:ring-2 focus:ring-power focus:border-power bg-white text-ink resize-vertical"
-                                    placeholder="Tell me what's on your mind..."
-                                    disabled={isSubmitting}
-                                />
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="w-full bg-power text-parchment font-medium py-3 px-6 rounded-md hover:bg-power/90 focus:ring-2 focus:ring-power focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                            >
-                                {isSubmitting ? 'Sending...' : 'Send Message'}
-                            </button>
-                        </form>
-
+                        {/* Status Messages */}
                         {submitStatus === 'success' && (
-                            <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
-                                Thanks for reaching out! I&apos;ll get back to you soon.
+                            <div className="bg-white rounded-xl shadow-sm border border-green-200 p-6">
+                                <div className="flex items-center space-x-3">
+                                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-green-800">Message Sent!</h3>
+                                        <p className="text-green-600">Thanks for reaching out! I&apos;ll get back to you soon.</p>
+                                    </div>
+                                </div>
                             </div>
                         )}
 
                         {submitStatus === 'error' && (
-                            <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
-                                {errorMessage}
+                            <div className="bg-white rounded-xl shadow-sm border border-red-200 p-6">
+                                <div className="flex items-center space-x-3">
+                                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                        <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-red-800">Oops! Something went wrong</h3>
+                                        <p className="text-red-600">{errorMessage}</p>
+                                    </div>
+                                </div>
                             </div>
                         )}
-                    </div>
+                    </form>
                 </div>
             </main>
             <Footer />
