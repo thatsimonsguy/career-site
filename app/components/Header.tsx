@@ -15,7 +15,7 @@ export default function Header({ isDimmed = false }: HeaderProps) {
                     <li><Link href="/">Home</Link></li>
                     <li><Link href="/public-speaking">Public Speaking</Link></li>
                     <li><Link href="/projects">Projects</Link></li>
-                    <li><Link href="/contact">Contact</Link></li>
+                    <li><Link href="/contact-me">Contact</Link></li>
                 </ul>
             </nav>
         </header>
