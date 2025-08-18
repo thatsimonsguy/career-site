@@ -95,6 +95,7 @@ export default function TemplateSelector({
                 {templates.map((template) => (
                     <button
                         key={template.id}
+                        type="button"
                         onClick={() => onTemplateChange(template.id)}
                         disabled={isSubmitting}
                         className={`
