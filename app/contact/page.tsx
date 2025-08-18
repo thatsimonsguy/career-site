@@ -66,7 +66,7 @@ ${formData.body}`;
 
             if (response.ok) {
                 setSubmitStatus('success');
-                setFormData({ subject: '', body: '' });
+                setFormData({ name: '', email: '', phone: '', subject: '', body: '' });
             } else {
                 throw new Error(`Server responded with status: ${response.status}`);
             }
