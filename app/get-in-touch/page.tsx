@@ -243,7 +243,7 @@ ${formData.body}`;
                                 <div className="bg-white rounded-xl shadow-sm border border-steel/10 p-6">
                                     <button
                                         type="submit"
-                                        disabled={isSubmitting}
+                                        disabled={isSubmitting || submitStatus === 'success'}
                                         className="w-full bg-blue-900 text-white font-semibold py-4 px-6 rounded-lg hover:bg-blue-800 focus:ring-2 focus:ring-blue-900/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
                                     >
                                         {isSubmitting ? (
@@ -263,42 +263,43 @@ ${formData.body}`;
                                             </span>
                                         )}
                                     </button>
+                                    
+                                    {/* Status Messages */}
+                                    {submitStatus === 'success' && (
+                                        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                                            <div className="flex items-center space-x-3">
+                                                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-sm font-semibold text-green-800">Message Sent!</h3>
+                                                    <p className="text-sm text-green-600">Thanks for reaching out! I&apos;ll get back to you soon.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {submitStatus === 'error' && (
+                                        <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                                            <div className="flex items-center space-x-3">
+                                                <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-sm font-semibold text-red-800">Something went wrong</h3>
+                                                    <p className="text-sm text-red-600">{errorMessage}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Status Messages */}
-                        {submitStatus === 'success' && (
-                            <div className="bg-white rounded-xl shadow-sm border border-green-200 p-6">
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                                        <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-green-800">Message Sent!</h3>
-                                        <p className="text-green-600">Thanks for reaching out! I&apos;ll get back to you soon.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {submitStatus === 'error' && (
-                            <div className="bg-white rounded-xl shadow-sm border border-red-200 p-6">
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                                        <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-red-800">Oops! Something went wrong</h3>
-                                        <p className="text-red-600">{errorMessage}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
                     </form>
                 </div>
             </main>
