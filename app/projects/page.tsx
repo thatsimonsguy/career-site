@@ -20,7 +20,7 @@ export default function ProjectsPage() {
                 {/* Blur only the headings */}
                 <div className={activeProjectTitle ? "transition-all duration-300 blur-sm opacity-50 pointer-events-none" : "transition-all duration-300"}>
                     <h1 className="text-4xl font-bold mb-8 text-red-900">Personal Projects</h1>
-                    <h2 className="text-2xl font-semibold mb-6">Current Projects</h2>
+                    <h2 className="text-2xl font-semibold mb-6">Ongoing Projects</h2>
                 </div>
 
                 {/* Current Projects Grid */}
@@ -38,7 +38,7 @@ export default function ProjectsPage() {
 
                 {/* Past Projects */}
                 <div className={activeProjectTitle ? "transition-all duration-300 blur-sm opacity-50 pointer-events-none" : "transition-all duration-300"}>
-                    <h2 className="text-2xl font-semibold mb-6">Past Projects</h2>
+                    <h2 className="text-2xl font-semibold mb-6">Completed Projects</h2>
                 </div>
 
                 <section className="relative grid gap-8 md:grid-cols-2">

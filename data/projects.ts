@@ -34,6 +34,21 @@ export const projects: Project[] = [
     ]
   },
   {
+    title: "Multi-stage Cascading Hydronic Control System",
+    status: "current",
+    shortDescription:
+      "A scratch-built control system for passive geothermal HVAC",
+    fullDescription:
+      "When we bought our home, I looked at the HVAC control system and said \"Someday that's going to die and I'm going to be sad.\" The control system was 15 years old and a complete black box. When it died, I did what any sensible fool would do and decided to replace it myself.",
+    images: [
+      { src: "/projects/hvacdash.png", caption: "My new thermostat. I can pull this up from anywhere, on any device." },
+      { src: "/projects/PXL_20250818_052014652.jpg", caption: "The hardware side, end result." },
+      { src: "/projects/PXL_20250104_001127962.jpg", caption: "How it started. This is the old system." },
+      { src: "/projects/PXL_20250104_001144202.jpg", caption: "A 'before' shot. Two ground-source heat pumps, buffer tank, and control system in frame." },
+      { src: "/projects/PXL_20250818_052043240.jpg", caption: "An 'after' shot of the old system. Thank you for your service." },
+    ]
+  },
+  {
     title: "Automated Garden Irrigation System",
     status: "current",
     shortDescription:
