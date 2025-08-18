@@ -31,7 +31,7 @@ export default function ContactInformation({ formData, isSubmitting, onChange }:
                 </div>
                 <div>
                     <h2 className="text-lg font-semibold text-ink">Contact Information</h2>
-                    <p className="text-sm text-steel">Tell us about yourself</p>
+                    <p className="text-sm text-steel">This time it really is all about you</p>
                 </div>
             </div>
 
