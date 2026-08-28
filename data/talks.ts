@@ -13,6 +13,33 @@ export interface Talk {
 
 export const talks: Talk[] = [
     {
+        event: "CAST: Conference of the Association for Software Testing",
+        title: "Where Bugs Live: Code Review as a Testing Skill",
+        location: "Cocoa Beach, Florida",
+        year: 2026,
+        recordingUrl: "",
+        latitude: 28.3200,
+        longitude: -80.6076,
+    },
+    {
+        event: "CAST: Conference of the Association for Software Testing",
+        title: "It Was All Testing the Whole Time: A Working Method for AI Partnership",
+        location: "Cocoa Beach, Florida",
+        year: 2026,
+        recordingUrl: "",
+        latitude: 28.3200,
+        longitude: -80.6076,
+    },
+    {
+        event: "CAST: Conference of the Association for Software Testing",
+        title: "The Black Mirror AI Panel",
+        location: "Salt Lake City, Utah",
+        year: 2025,
+        recordingUrl: "",
+        latitude: 40.7608,
+        longitude: -111.8910,
+    },
+    {
         event: "AI in Healthcare Forum",
         title: "Vibe Coding in Healthcare: A Prescription for Heartburn",
         location: "Minneapolis",
